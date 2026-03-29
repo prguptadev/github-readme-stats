@@ -12,8 +12,8 @@ import {
 } from "../common/render.js";
 import { langCardLocales } from "../translations.js";
 
-const DEFAULT_CARD_WIDTH = 300;
-const MIN_CARD_WIDTH = 280;
+const DEFAULT_CARD_WIDTH = 500;
+const MIN_CARD_WIDTH = 350;
 const DEFAULT_LANG_COLOR = "#858585";
 const CARD_PADDING = 25;
 const COMPACT_LAYOUT_BASE_HEIGHT = 90;
