@@ -198,6 +198,16 @@ class Card {
           opacity: 1;
         }
       }
+      @keyframes shimmer {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+      }
+      @keyframes borderGlow {
+        0% { stroke-opacity: 0.3; }
+        50% { stroke-opacity: 0.8; }
+        100% { stroke-opacity: 0.3; }
+      }
     `;
   };
 
@@ -240,6 +250,22 @@ class Card {
 
         ${this.renderGradient()}
 
+        <defs>
+          <filter id="glassShadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+          </filter>
+          <filter id="innerGlow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+            <feOffset dx="0" dy="0"/>
+            <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+            <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.4 0 0 0 0 1 0 0 0 0.15 0"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
         <rect
           data-testid="card-bg"
           x="0.5"
@@ -254,6 +280,19 @@ class Card {
               : this.colors.bgColor
           }"
           stroke-opacity="${this.hideBorder ? 0 : 1}"
+          stroke-width="1.5"
+          filter="url(#glassShadow)"
+          style="animation: borderGlow 3s ease-in-out infinite;"
+        />
+
+        <rect
+          x="1"
+          y="1"
+          rx="${this.border_radius}"
+          height="30"
+          width="${this.width - 2}"
+          fill="${this.colors.borderColor || 'transparent'}"
+          fill-opacity="0.05"
         />
 
         ${this.hideTitle ? "" : this.renderTitle()}

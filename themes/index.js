@@ -6,6 +6,47 @@ export const themes = {
     bg_color: "fffefe",
     border_color: "e4e2e2",
   },
+  // Custom glassmorphism themes by Prashant Gupta
+  glassmorphism: {
+    title_color: "ffffff",
+    icon_color: "a78bfa",
+    text_color: "e2e8f0",
+    bg_color: "15,0f0f1a,1a1a2e,16213e",
+    border_color: "a78bfa44",
+    ring_color: "a78bfa",
+  },
+  glassmorphism_blue: {
+    title_color: "e0f2fe",
+    icon_color: "38bdf8",
+    text_color: "cbd5e1",
+    bg_color: "135,0c1222,1e293b,0f172a",
+    border_color: "38bdf844",
+    ring_color: "38bdf8",
+  },
+  glassmorphism_emerald: {
+    title_color: "d1fae5",
+    icon_color: "34d399",
+    text_color: "cbd5e1",
+    bg_color: "135,0a1a1a,1a2e2a,0f2e1e",
+    border_color: "34d39944",
+    ring_color: "34d399",
+  },
+  glassmorphism_rose: {
+    title_color: "ffe4e6",
+    icon_color: "fb7185",
+    text_color: "cbd5e1",
+    bg_color: "135,1a0a12,2e1a24,2e0f1e",
+    border_color: "fb718544",
+    ring_color: "fb7185",
+  },
+  midnight_purple: {
+    title_color: "c4b5fd",
+    icon_color: "a78bfa",
+    text_color: "94a3b8",
+    bg_color: "0d0d1a",
+    border_color: "7c3aed33",
+    ring_color: "8b5cf6",
+  },
   default_repocard: {
     title_color: "2f80ed",
     icon_color: "586069", // icon color is different
