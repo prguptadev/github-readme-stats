@@ -218,13 +218,14 @@ class Card {
   render(body) {
     return `
       <svg
-        width="${this.width}"
-        height="${this.height}"
+        width="100%"
+        height="100%"
         viewBox="0 0 ${this.width} ${this.height}"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-labelledby="descId"
+        preserveAspectRatio="xMidYMid meet"
       >
         <title id="titleId">${this.a11yTitle}</title>
         <desc id="descId">${this.a11yDesc}</desc>
@@ -251,48 +252,79 @@ class Card {
         ${this.renderGradient()}
 
         <defs>
-          <filter id="glassShadow">
-            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
-          </filter>
-          <filter id="innerGlow">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
-            <feOffset dx="0" dy="0"/>
-            <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
-            <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.4 0 0 0 0 1 0 0 0 0.15 0"/>
+          <filter id="cardGlow" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+            <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.4 0 0 0 0 0.2 0 0 0 0 0.8 0 0 0 0.4 0" result="glow"/>
             <feMerge>
-              <feMergeNode/>
+              <feMergeNode in="glow"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
+          <clipPath id="cardClip">
+            <rect x="0.5" y="0.5" rx="${this.border_radius}" width="${this.width - 1}" height="99%"/>
+          </clipPath>
         </defs>
 
+        <!-- Outer glow border -->
+        <rect
+          x="0"
+          y="0"
+          rx="${this.border_radius + 1}"
+          width="${this.width}"
+          height="100%"
+          fill="none"
+          stroke="${this.colors.borderColor}"
+          stroke-width="2"
+          stroke-opacity="${this.hideBorder ? 0 : 0.6}"
+          style="animation: borderGlow 4s ease-in-out infinite;"
+        />
+
+        <!-- Main card background -->
         <rect
           data-testid="card-bg"
           x="0.5"
           y="0.5"
           rx="${this.border_radius}"
           height="99%"
-          stroke="${this.colors.borderColor}"
           width="${this.width - 1}"
           fill="${
             typeof this.colors.bgColor === "object"
               ? "url(#gradient)"
               : this.colors.bgColor
           }"
-          stroke-opacity="${this.hideBorder ? 0 : 1}"
-          stroke-width="1.5"
-          filter="url(#glassShadow)"
-          style="animation: borderGlow 3s ease-in-out infinite;"
+          stroke="none"
         />
 
+        <!-- Frosted glass shimmer overlay -->
         <rect
-          x="1"
-          y="1"
+          x="0.5"
+          y="0.5"
           rx="${this.border_radius}"
-          height="30"
-          width="${this.width - 2}"
-          fill="${this.colors.borderColor || 'transparent'}"
-          fill-opacity="0.05"
+          height="99%"
+          width="${this.width - 1}"
+          fill="url(#glassOverlay)"
+          opacity="0.08"
+          clip-path="url(#cardClip)"
+        />
+        <defs>
+          <linearGradient id="glassOverlay" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+            <stop offset="40%" stop-color="#ffffff" stop-opacity="0"/>
+            <stop offset="60%" stop-color="#ffffff" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Top highlight line for glass effect -->
+        <line
+          x1="${this.border_radius + 5}"
+          y1="1.5"
+          x2="${this.width - this.border_radius - 5}"
+          y2="1.5"
+          stroke="#ffffff"
+          stroke-opacity="0.12"
+          stroke-width="1"
+          stroke-linecap="round"
         />
 
         ${this.hideTitle ? "" : this.renderTitle()}
